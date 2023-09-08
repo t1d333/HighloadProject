@@ -8,7 +8,7 @@
 
 По состоянию на август 2023 года Twitch посещает 140 миллионов уникальных пользователей каждый месяц.
 
-Распределение аудитории [3^]
+[Распределение аудитории](https://worldpopulationreview.com/country-rankings/twitch-users-by-country)
 
 | Страна       | Количество пользователей, млн | процент от общего количества |
 | ------------ | ----------------------------- | ---------------------------- |
@@ -40,7 +40,7 @@
 
 ## 2. Расчет нагрузки
 
-### Продуктовые метрики
+### [Продуктовые метрики](https://worldpopulationreview.com/country-rankings/twitch-users-by-country)
 
 - Месячная аудитория(MAU) — 140 млн пользователей
 - Дневная аудитория(DAU) — 31 млн пользователей
@@ -75,6 +75,6 @@
 
 ## Источники
 
-[1^]: https://twitchtracker.com/statistics
-[2^]: https://www.demandsage.com/twitch-users/
-[3^]: https://worldpopulationreview.com/cou1ntry-rankings/twitch-users-by-country
+1. https://twitchtracker.com/statistics
+2. https://www.demandsage.com/twitch-users/
+3. https://worldpopulationreview.com/country-rankings/twitch-users-by-country

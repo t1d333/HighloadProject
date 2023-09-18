@@ -110,21 +110,21 @@ $$
 6000 \times 3.5 \times 60 \times 60 \times 21 \times 10^{6} \times 10 \approx 184820 \ \text{ГБайт}
 $$
 
-Для всех остальных(их примерно [14.5 млн]() — в статистике учитывались только каналы с среднем количеством зрителей 5 и более) возьмем следующие характеристики:
+Для всех остальных(их примерно [14.5 млн](https://streamscharts.com/overview/partners) — в статистике учитывались только каналы с среднем количеством зрителей 5 и более) возьмем следующие характеристики:
 
 - Качество — 720p
 - Частота кадров — 60fps
-- Продолжительность трансляции $\approx$ 2.5 часа
+- Продолжительность трансляции $\approx$ 3.5 часа
 - Количество трансляций в неделю — 4
-  Итого: 273460 ГБайт необходимо на хранение трансляций пользователй
+  Итого: 382843 ГБайт необходимо на хранение трансляций пользователй
 
 $$
-4500 \times 2.5 \times 60 \times 60 \times 4 \times 14.5 \times 10^{6} \approx 273460 \ \text{ГБайт}
+4500 \times 3.5 \times 60 \times 60 \times 4 \times 14.5 \times 10^{6} \approx 382843 \ \text{ГБайт}
 $$
 
 ##### Промежуточное хранилище
 
-##### Хранилище чата
+##### Хранилище сообщений
 
 #### Сетевой трафик
 
@@ -160,6 +160,10 @@ $$
 
 #### RPS в разбивке по типам запросов
 
+| Тип запроса | RPS |
+| :---------- | :-- |
+|             |     |
+
 ## Источники
 
 1. https://twitchtracker.com/statistics
@@ -169,6 +173,7 @@ $$
 5. https://stats.streamelements.com/
 6. https://help.twitch.tv/s/article/broadcasting-guidelines?language=en_US
 7. https://twitchstats.net/
+8. https://streamscharts.com/
 
 [1]: https://twitchtracker.com/statistics
 [2]: https://www.demandsage.com/twitch-users/
@@ -177,3 +182,4 @@ $$
 [5]: https://stats.streamelements.com/
 [6]: https://help.twitch.tv/s/article/broadcasting-guidelines?language=en_US
 [7]: https://twitchstats.net/
+[8]: https://streamscharts.com/

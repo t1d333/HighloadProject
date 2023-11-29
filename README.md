@@ -365,93 +365,23 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 - **liveness** - позволяет отследить доступность работающего приложения, посредством отправления HTTP запроса. Запрос отправляется каждые 5 секунд.
   Пример конфига для включения liveness пробы.
 
-```yaml
-livenessProbe:
-  httpGet:
-    scheme: HTTPS
-    path: /ping
-    port: 8080
-  initialDelaySeconds: 5
-  periodSeconds: 5
-```
-
 - **readiness** - позволяет отследить готовность контейнреа принимать трафик. Под считается готовым, когда готовы все его контейнеры.
   Пример конфига для включения readiness пробы
-
-```yaml
-readinessProbe:
-  httpGet:
-    scheme: HTTPS
-    path: /ping
-    port: 8485
-  initialDelaySeconds: 5
-  periodSeconds: 5
-```
 
 Также будет использоваться Service mesh архитектура. В качестве реализации - Istio.
 При использовании service mesh архитектуры, рядом с каждым сервисом ставится прокси сервер, который называется sidecar-proxy.
 В случае Istio в качестве sidecar-proxy используется Envoy.
 
-Механизмы Istio для обеспечения надежности:
+Механизмы Istio для обеспечения надежности (примеры конфигов лежат в папке `./samples`):
 
 - **Circuit Breaking:**. С помощью прерываний можно предотвратить запросы к сервису, который испытывает проблемы.
-  Пример конфига.
 
-```yaml
-spec:
-  host: service
-  trafficPolicy:
-    connectionPool:
-      http:
-        http1MaxPendingRequests: N
-        maxRequestsPerConnection: M
-```
-
-- **Timeouts:** позволяют предотвратить блокировку ресурсов на стороне отправителя и получателя.
+- **Timeouts:** позволяет предотвратить блокировку ресурсов на стороне отправителя и получателя.
   Если ответ от сервиса не поступает в течение определенного времени, Istio может прекращать ожидание и обрабатывать ситуацию
-  Пример конфига.
-
-```yaml
-spec:
-  hosts:
-    - service
-  http:
-    - route:
-        - destination:
-            host: service
-      timeout: N
-```
 
 - **Retries:** Istio может автоматически повторять неудачные запросы, что может улучшить надежность системы в случае временных сбоев.
-  Пример конфига .
-
-```yaml
-spec:
-  hosts:
-    - service
-  http:
-    - route:
-        - destination:
-            host: service
-      retries:
-        attempts: N
-        perTryTimeout: 5s
-```
 
 - **Rate Limiting:** Istio поддерживает управление частотой запросов, что позволяет предотвращать перегрузки сервисов за счет ограничения количества запросов, поступающих на них.
-  Пример конфига .
-
-```yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: QuotaSpec
-metadata:
-  name: request-limit
-spec:
-  rules:
-    - quotas:
-        - maxAmount: 3000
-          validDuration: 5s
-```
 
 ## 5. Логическая схема БД
 

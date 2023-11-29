@@ -1,0 +1,8 @@
+readinessProbe:
+  httpGet:
+    scheme: HTTPS
+    path: /ping
+    port: 8485
+  initialDelaySeconds: 5
+  periodSeconds: 5
+

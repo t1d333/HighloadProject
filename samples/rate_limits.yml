@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: QuotaSpec
+metadata:
+  name: request-limit
+spec:
+  rules:
+    - quotas:
+        - maxAmount: 3000
+          validDuration: 5s
+

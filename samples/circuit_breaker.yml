@@ -1,0 +1,7 @@
+spec:
+  host: service
+  trafficPolicy:
+    connectionPool:
+      http:
+        http1MaxPendingRequests: N
+        maxRequestsPerConnection: M

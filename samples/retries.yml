@@ -1,0 +1,11 @@
+spec:
+  hosts:
+    - service
+  http:
+    - route:
+        - destination:
+            host: service
+      retries:
+        attempts: N
+        perTryTimeout: 5s
+

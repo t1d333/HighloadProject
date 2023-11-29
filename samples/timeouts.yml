@@ -1,0 +1,9 @@
+spec:
+  hosts:
+    - service
+  http:
+    - route:
+        - destination:
+            host: service
+      timeout: N
+

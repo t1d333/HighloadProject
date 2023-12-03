@@ -502,14 +502,25 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 
 ## 10. Рассчет ресурсов
 
-| Сервис            | Хостинг | Конфигурация | Cores | Cnt |
-| ----------------- | ------- | ------------ | ----- | --- |
-| Nginx             |         |              |       |     |
-| Auth              |         |              |       |     |
-| Streams and Users |         |              |       |     |
-| Chat              |         |              |       |     |
-| Transcoding       |         |              |       |     |
-| Delivery          |         |              |       |     |
+| Сервис                    | Целевая пиковая нагрузка приложения | CPU | RAM   | Net      |
+| ------------------------- | ----------------------------------- | --- | ----- | -------- |
+| Edge(раздача видеопотока) | 1.8 \* 10^6 RPS                     |     | 36 ГБ | 17 Тб/с  |
+| Ingest(прием видеопотока) | 130000 Connections                  | 100 | 20 ГБ | 557 Гб/с |
+| API Gateway               | 3392 RPS                            |     |       | -        |
+| Transcoding               | 130000 Streams                      |     |       | -        |
+| Streams and Users         | 2316 RPS                            |     |       |          |
+| Auth                      | 1076 RPS                            |     |       | -        |
+| Delivery                  | 130000 Streams                      |     |       | -        |
+
+| Сервис                    | Хостинг | Конфигурация                       | GPU                 | Cores | Cnt |
+| ------------------------- | ------- | ---------------------------------- | ------------------- | ----- | --- |
+| Edge(раздача видеопотока) |         | 1x6338/4x32GB/2xNVMe4T/1x40Gb/s    | -                   |       | 435 |
+| Ingest(прием видеопотока) |         | 1x6338/4x32GB/2xNVMe4T/1x20Gb/s    | -                   |       | 30  |
+| Auth                      |         |                                    | -                   |       |     |
+| Streams and Users         |         |                                    | -                   |       |     |
+| Chat                      |         |                                    | -                   |       |     |
+| Transcoding               | own     | 2x6403/8x32GB/1xNVMe256GB/1x20Gb/s | 4 x NVIDIA Tesla T4 | 48    | 361 |
+| Delivery                  |         |                                    |                     |       |     |
 
 ## Источники
 
@@ -522,6 +533,7 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 7. https://twitchstats.net/
 8. https://streamscharts.com/
 9. https://blog.twitch.tv/en/2022/04/26/ingesting-live-video-streams-at-global-scale/
+10. https://www.wowza.com/docs/wowza-transcoder-performance-benchmark
 
 [1]: https://twitchtracker.com/statistics
 [2]: https://www.demandsage.com/twitch-users/
@@ -532,3 +544,4 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 [7]: https://twitchstats.net/
 [8]: https://streamscharts.com/
 [9]: https://blog.twitch.tv/en/2022/04/26/ingesting-live-video-streams-at-global-scale/
+[10]: https://github.com/ossrs/srs/blob/develop/trunk/doc/PERFORMANCE.md

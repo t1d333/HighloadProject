@@ -502,25 +502,34 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 
 ## 10. Рассчет ресурсов
 
-| Сервис                    | Целевая пиковая нагрузка приложения | CPU | RAM   | Net      |
-| ------------------------- | ----------------------------------- | --- | ----- | -------- |
-| Edge(раздача видеопотока) | 1.8 \* 10^6 RPS                     |     | 36 ГБ | 17 Тб/с  |
-| Ingest(прием видеопотока) | 130000 Connections                  | 100 | 20 ГБ | 557 Гб/с |
-| API Gateway               | 3392 RPS                            |     |       | -        |
-| Transcoding               | 130000 Streams                      |     |       | -        |
-| Streams and Users         | 2316 RPS                            |     |       |          |
-| Auth                      | 1076 RPS                            |     |       | -        |
-| Delivery                  | 130000 Streams                      |     |       | -        |
+### Распределение ресурсов по сервисам
 
-| Сервис                    | Хостинг | Конфигурация                       | GPU                 | Cores | Cnt |
-| ------------------------- | ------- | ---------------------------------- | ------------------- | ----- | --- |
-| Edge(раздача видеопотока) |         | 1x6338/4x32GB/2xNVMe4T/1x40Gb/s    | -                   |       | 435 |
-| Ingest(прием видеопотока) |         | 1x6338/4x32GB/2xNVMe4T/1x20Gb/s    | -                   |       | 30  |
-| Auth                      |         |                                    | -                   |       |     |
-| Streams and Users         |         |                                    | -                   |       |     |
-| Chat                      |         |                                    | -                   |       |     |
-| Transcoding               | own     | 2x6403/8x32GB/1xNVMe256GB/1x20Gb/s | 4 x NVIDIA Tesla T4 | 48    | 361 |
-| Delivery                  |         |                                    |                     |       |     |
+Для рассчета ресурсов под сервис транскодирования возьмем данные из [10]
+Для рассчета ресурсов под сервис чата возьмем данные из [11]
+
+| Сервис                    | Целевая пиковая нагрузка приложения | CPU   | RAM     | Net      |
+| ------------------------- | ----------------------------------- | ----- | ------- | -------- |
+| Edge(раздача видеопотока) | 1.8 \* 10^6 RPS                     | 730   | 36 ГБ   | 17 Тб/с  |
+| Ingest(прием видеопотока) | 130000 Connections                  | 100   | 20 ГБ   | 557 Гб/с |
+| API Gateway               | 3392 RPS                            | 330   | 30 ГБ   | 20 ГБ/с  |
+| Transcoding               | 130000 Parallel streams             | 22690 | -       | 557 ГБ/с |
+| Streams and Users         | 2316 RPS                            | 200   | 23 ГБ   | 10 Гб/с  |
+| Auth                      | 1076 RPS                            | 108   | 10 ГБ   | 2 Гб/c   |
+| Delivery                  | 130000 Parallel Streams             | 5200  | 558 ГБ  | 4 Тб/с   |
+| Chat                      | 6.7 \* 10^6 Connections             | 1340  | 1178 ГБ | 3 Гб/с   |
+
+### Конфигурация серверов
+
+| Сервис                    | Хостинг | Конфигурация                         | GPU                 | Cores | Cnt | Цена    |
+| ------------------------- | ------- | ------------------------------------ | ------------------- | ----- | --- | ------- |
+| Edge(раздача видеопотока) | own     | 1x6448Y/2x32GB/2xNVMe8T/1x40Gb/s     | -                   | 32    | 435 | €9,493  |
+| Ingest(прием видеопотока) | own     | 1x6448Y/2x16GB/1xNVMe128GB/1x25Gb/s  | -                   | 32    | 30  | €7,715  |
+| Auth                      | own     | 1x6448Y/2x16GB/1xNVMe128GB/1x10GB/s  | -                   | 32    | 7   | €7,688  |
+| Streams and Users         | own     | 1x6448Y/2x16GB/1xNVMe128GB/1x10GB/s  | -                   | 32    | 8   | €7,688  |
+| Transcoding               | own     | 2x6421N/16x32GB/1xNVMe128GB/1x10Gb/s | 8 x NVIDIA Tesla L4 | 64    | 370 | €38,566 |
+| Delivery                  | own     | 2x6448Y/2x32GB/1xNVMe128GB/1x40Gb/s  | -                   | 64    | 102 | €13,263 |
+| Chat                      | own     | 1x6448Y/2x16GB/1xNVMe128GB/1x10Gb/s  | -                   | 32    | 42  | €7,688  |
+| API Gateway               | own     | 1x6448Y/2x16GB/1xNVMe128GB/1x25Gb/s  | -                   | 32    | 12  | €7,715  |
 
 ## Источники
 
@@ -534,6 +543,7 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 8. https://streamscharts.com/
 9. https://blog.twitch.tv/en/2022/04/26/ingesting-live-video-streams-at-global-scale/
 10. https://www.wowza.com/docs/wowza-transcoder-performance-benchmark
+11. https://www.nginx.com/blog/nginx-websockets-performance/
 
 [1]: https://twitchtracker.com/statistics
 [2]: https://www.demandsage.com/twitch-users/
@@ -544,4 +554,5 @@ DNS-сервер **Bind** [предоставляет](https://kb.isc.org/docs/a
 [7]: https://twitchstats.net/
 [8]: https://streamscharts.com/
 [9]: https://blog.twitch.tv/en/2022/04/26/ingesting-live-video-streams-at-global-scale/
-[10]: https://github.com/ossrs/srs/blob/develop/trunk/doc/PERFORMANCE.md
+[10]: https://www.wowza.com/docs/wowza-transcoder-performance-benchmark
+[11]: https://www.nginx.com/blog/nginx-websockets-performance/
